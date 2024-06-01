@@ -22,6 +22,15 @@ import java.util.UUID;
 public class BeerController {
     private final BeerService beerService;
 
+    @PutMapping("/api/v1/beer/{beerid}")
+    public ResponseEntity updateBeer(@RequestBody Beer beer, @PathVariable("beerid") UUID beerid ){
+        Beer beer1 = beerService.updateBeerbyid(beer, beerid);
+        HttpHeaders header = new HttpHeaders();
+        header.add("Location", beer1.getId() + "Updated");
+        return new ResponseEntity(header,HttpStatus.OK);
+    }
+
+
     @RequestMapping("/api/v1/beer")
     public List<Beer> listBeers() {
         return beerService.listBeers();
